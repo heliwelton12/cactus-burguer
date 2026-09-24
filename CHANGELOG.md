@@ -2,13 +2,24 @@
 
 Todas as mudanças relevantes do projeto serão registradas neste arquivo.
 
-## [0.3.1-test] - 2026-09-23
+## [0.4.0] - 2026-09-23
 
-### Teste local
-- Adicionado modo temporário `?testOpen=1` para simular loja aberta somente em `npm run dev`.
-- O override é bloqueado em build, preview e produção por `import.meta.env.DEV`.
-- Criado `docs/TESTE-HORARIO-ABERTO.md` com procedimento de validação.
-- Este código deve ser removido antes do primeiro commit público.
+### Validado
+- Teste controlado de loja aberta concluído com sucesso.
+- Mensagem completa do WhatsApp validada.
+- `npm run build` concluído sem erros.
+- `npm run preview` aberto e regressão curta aprovada.
+- Primeiro push oficial realizado na branch `main`.
+
+### Processo
+- A versão temporária usada para simular horário aberto foi descartada antes do primeiro push.
+- Nenhum código de teste `?testOpen=1` permanece na versão oficial.
+- Projeto passou do estágio exclusivamente local para versionamento oficial no GitHub.
+
+### Próximo gate
+- Publicação separada no Cloudflare Pages.
+- Regressão na URL de produção.
+- Acessibilidade, segurança, SEO e performance antes da v1.0.0.
 
 ## [0.3.0] - 2026-09-23
 
@@ -29,10 +40,6 @@ Todas as mudanças relevantes do projeto serão registradas neste arquivo.
 
 ### Código
 - Nenhuma regra funcional alterada nesta versão; atualização focada em planejamento, rastreabilidade e documentação.
-
-### Validado
-- `npm run build` concluído sem erros.
-- `npm run preview` aberto e regressão curta aprovada.
 
 ## [0.2.0] - 2026-09-23
 

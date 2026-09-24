@@ -36,8 +36,8 @@ A partir da v0.3.0, os testes usam IDs `CT-###` e podem apontar para requisitos 
 | CT-019 | RF-016 | Voltar ao topo | ✅ | Confirmado no teste mobile |
 | CT-020 | RNF-002 | Ausência de overflow horizontal | ✅ | Usuário confirmou no teste mobile |
 | CT-021 | RNF-003 | Console sem erros críticos | ✅ | Usuário confirmou console sem erros |
-| CT-022 | RF-015 | Conferir texto completo da mensagem WhatsApp | ⬜ | Validar itens, retirada, adicionais, pagamento, troco, observação e total |
-| CT-023 | RF-013, RF-015 | Enviar pedido em horário aberto | ⬜ | Teste controlado disponível via `?testOpen=1` apenas em `npm run dev`; validar antes do GitHub |
+| CT-022 | RF-015 | Conferir texto completo da mensagem WhatsApp | ✅ | Itens, retirada, adicionais, pagamento, troco, observação e total validados |
+| CT-023 | RF-013, RF-015 | Enviar pedido em horário aberto | ✅ | Teste controlado concluído; versão temporária descartada antes do primeiro push |
 | CT-024 | RF-017 | Nome vazio no envio | ⬜ | Deve mostrar feedback e preservar estado |
 | CT-025 | RF-017 | Troco inválido | ⬜ | Deve bloquear e informar valor inválido |
 | CT-026 | RNF-003 | Navegação somente por teclado | ⬜ | Tab, foco, fechar modais e ações críticas |
@@ -71,16 +71,17 @@ A partir da v0.3.0, os testes usam IDs `CT-###` e podem apontar para requisitos 
 | RF-016 | CT-004, CT-005, CT-018, CT-019, CT-020 |
 | RF-017 | CT-024, CT-025 |
 
-## Gate antes do GitHub/Cloudflare
+## Gate antes do Cloudflare
 
-O primeiro push de release só é aprovado quando, no mínimo:
+O projeto foi aprovado para publicação de uma cópia de teste/produção separada no Cloudflare Pages:
 
 - CT-028 (`npm run build`) = ✅;
 - CT-029 (`npm run preview`) = ✅;
 - CT-022 (mensagem WhatsApp) = ✅;
-- CT-023 (horário aberto) = ✅ ou houver método de teste controlado documentado;
-- regressão crítica continuar sem erros;
-- documentação estiver atualizada.
+- CT-023 (horário aberto) = ✅;
+- horário fechado e preservação do carrinho = ✅;
+- regressão crítica local = ✅;
+- primeiro push GitHub = ✅.
 
 ## Gate antes da v1.0.0
 
