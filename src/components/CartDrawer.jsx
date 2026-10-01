@@ -19,22 +19,29 @@ export default function CartDrawer({
   if (!open) return null;
 
   const total = cart.reduce((sum, item) => sum + itemUnitTotal(item) * item.quantity, 0);
+  const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <div className="drawer-root" role="dialog" aria-modal="true" aria-labelledby="cart-title">
       <button className="modal-backdrop" type="button" aria-label="Fechar pedido" onClick={onClose} />
+
       <aside className="cart-drawer">
         <div className="cart-heading">
           <div>
             <span>SEU PEDIDO</span>
             <h2 id="cart-title">Meu pedido</h2>
+            <p>{itemCount} {itemCount === 1 ? 'item' : 'itens'} no carrinho</p>
           </div>
-          <button className="icon-button" type="button" onClick={onClose} aria-label="Fechar">×</button>
+
+          <button className="icon-button" type="button" onClick={onClose} aria-label="Fechar">
+            ×
+          </button>
         </div>
 
         <div className="cart-list">
           {cart.length === 0 ? (
             <div className="empty-cart">
+              <div className="empty-cart-icon" aria-hidden="true">+</div>
               <strong>Seu pedido está vazio.</strong>
               <p>Escolha um item no cardápio para começar.</p>
             </div>
@@ -45,15 +52,22 @@ export default function CartDrawer({
                   <h3>{item.name}</h3>
                   <strong>{formatCurrency(itemUnitTotal(item) * item.quantity)}</strong>
                 </div>
-                <button type="button" onClick={() => onRemove(item.cartId)}>Remover</button>
+
+                <button type="button" onClick={() => onRemove(item.cartId)}>
+                  Remover
+                </button>
               </div>
 
               {item.removedIngredients.length > 0 && (
                 <p className="cart-detail">Sem: {item.removedIngredients.join(', ')}</p>
               )}
+
               {item.additions.length > 0 && (
-                <p className="cart-detail">Adicionais: {item.additions.map((addition) => addition.name).join(', ')}</p>
+                <p className="cart-detail">
+                  Adicionais: {item.additions.map((addition) => addition.name).join(', ')}
+                </p>
               )}
+
               {item.note && <p className="cart-detail">Obs.: {item.note}</p>}
 
               <div className="cart-controls">
@@ -62,14 +76,23 @@ export default function CartDrawer({
                   <span>{item.quantity}</span>
                   <button type="button" onClick={() => onChangeQuantity(item.cartId, 1)}>+</button>
                 </div>
-                <button type="button" className="edit-item" onClick={() => onEdit(item)}>Editar</button>
+
+                <button type="button" className="edit-item" onClick={() => onEdit(item)}>
+                  Editar
+                </button>
               </div>
             </article>
           ))}
         </div>
 
         <div className="checkout-block">
-          <div className="cart-total"><span>Total</span><strong>{formatCurrency(total)}</strong></div>
+          <div className="cart-total">
+            <div>
+              <span>Total do pedido</span>
+              <small>Retirada no local</small>
+            </div>
+            <strong>{formatCurrency(total)}</strong>
+          </div>
 
           <label className="field-label">
             Seu nome
@@ -83,6 +106,7 @@ export default function CartDrawer({
 
           <fieldset className="payment-fieldset">
             <legend>Forma de pagamento</legend>
+
             <div className="payment-options">
               {['Pix', 'Cartão', 'Dinheiro'].map((method) => (
                 <label key={method}>
@@ -132,6 +156,7 @@ export default function CartDrawer({
           <button type="button" className="whatsapp-action" disabled={!cart.length} onClick={onSend}>
             Enviar pedido no WhatsApp
           </button>
+
           <small>O pedido será enviado para confirmação da Cactus Burguer.</small>
         </div>
       </aside>

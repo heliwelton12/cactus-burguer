@@ -2,24 +2,68 @@
 
 Todas as mudanças relevantes do projeto serão registradas neste arquivo.
 
-## [0.4.0] - 2026-09-23
+## [0.5.5] - 2026-10-01
 
-### Validado
-- Teste controlado de loja aberta concluído com sucesso.
-- Mensagem completa do WhatsApp validada.
-- `npm run build` concluído sem erros.
-- `npm run preview` aberto e regressão curta aprovada.
-- Primeiro push oficial realizado na branch `main`.
+### Em teste
+- Refinamento exclusivamente mobile.
+- Cabeçalho sticky ligeiramente mais compacto no celular.
+- Hero reduzido em altura para evitar espaço vazio excessivo.
+- Título do hero levemente reduzido para melhorar equilíbrio visual.
+- Imagem reposicionada no mobile para reduzir a sobreposição da marca da foto com o texto.
+- Cards de Retirada e Pagamento mais compactos.
+- Contraste reforçado apenas no mobile.
+- Desktop preservado sem alterações.
+
+## [0.5.4] - 2026-10-01
+
+### Em teste
+- Reposicionada exclusivamente a imagem de fundo do hero para exibir melhor o nome “CACTUS” presente na arte original.
+- Nenhum outro elemento visual, estrutural ou funcional foi alterado.
+
+## [0.5.3] - 2026-10-01
+
+### Em teste
+- Cabeçalho transformado em navegação sticky que acompanha a rolagem.
+- Carrinho permanece acessível no cabeçalho em desktop e mobile.
+- Navegação de categorias passa a ficar fixa logo abaixo do cabeçalho.
+- Removido o botão flutuante duplicado de “Meu pedido” no mobile.
+- Removidas repetições de status, marca e instruções no hero.
+- Hero simplificado para “É sabor. É Cactus!” e uma única orientação de compra.
+- Blocos inferiores do hero reduzidos para Retirada e Pagamento.
+- Cabeçalho do cardápio simplificado para evitar repetição de instruções.
+- Corrigido seletor CSS duplicado na regra responsiva de produtos.
+- Nenhuma regra funcional do pedido foi alterada.
+
+## [0.5.2] - 2026-10-01
+
+### Em teste
+- Hero redesenhado para usar a imagem oficial como fundo integrado, sem moldura.
+- Gradientes e sobreposição aplicados para preservar legibilidade.
+- Layout responsivo refinado para desktop, tablet e mobile.
+- Imagem convertida para WebP para reduzir peso.
+- Nenhuma regra funcional alterada.
+
+## [Unreleased] — Refinamento visual v0.5.1 em teste
+
+### Visual
+- Hero atualizado para usar a arte original aprovada da Cactus Burguer, sem recriação artificial.
+- Cabeçalho reorganizado com marca compacta, status da loja e acesso ao carrinho.
+- Texto principal simplificado para evitar repetição excessiva de Cactus, pedido, retirada e WhatsApp.
+- Imagem principal preserva a proporção original e recebe apenas acabamento de integração com o fundo escuro.
+- Responsividade do hero revisada para desktop, tablet e celular.
 
 ### Processo
-- A versão temporária usada para simular horário aberto foi descartada antes do primeiro push.
-- Nenhum código de teste `?testOpen=1` permanece na versão oficial.
-- Projeto passou do estágio exclusivamente local para versionamento oficial no GitHub.
+- Alterações mantidas em versão separada de teste.
+- Nenhum push/deploy desta versão foi realizado.
+- A lógica de carrinho, horário, personalização, pagamentos e WhatsApp não foi alterada nesta etapa.
 
-### Próximo gate
-- Publicação separada no Cloudflare Pages.
-- Regressão na URL de produção.
-- Acessibilidade, segurança, SEO e performance antes da v1.0.0.
+## [0.3.1-test] - 2026-09-23
+
+### Teste local
+- Adicionado modo temporário `?testOpen=1` para simular loja aberta somente em `npm run dev`.
+- O override é bloqueado em build, preview e produção por `import.meta.env.DEV`.
+- Criado `docs/TESTE-HORARIO-ABERTO.md` com procedimento de validação.
+- Este código deve ser removido antes do primeiro commit público.
 
 ## [0.3.0] - 2026-09-23
 
@@ -40,6 +84,10 @@ Todas as mudanças relevantes do projeto serão registradas neste arquivo.
 
 ### Código
 - Nenhuma regra funcional alterada nesta versão; atualização focada em planejamento, rastreabilidade e documentação.
+
+### Validado
+- `npm run build` concluído sem erros.
+- `npm run preview` aberto e regressão curta aprovada.
 
 ## [0.2.0] - 2026-09-23
 

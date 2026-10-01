@@ -38,6 +38,7 @@ export default function ProductModal({ product, editingItem, onClose, onSave }) 
   return (
     <div className="modal-root" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
       <button className="modal-backdrop" type="button" aria-label="Fechar personalização" onClick={onClose} />
+
       <section className="product-modal">
         <div className="modal-heading">
           <div>
@@ -45,12 +46,21 @@ export default function ProductModal({ product, editingItem, onClose, onSave }) 
             <h2 id="product-modal-title">{product.name}</h2>
             <p>{product.description}</p>
           </div>
-          <button type="button" className="icon-button" onClick={onClose} aria-label="Fechar">×</button>
+
+          <button type="button" className="icon-button" onClick={onClose} aria-label="Fechar">
+            ×
+          </button>
+        </div>
+
+        <div className="modal-base-price">
+          <span>Preço base</span>
+          <strong>{formatCurrency(product.price)}</strong>
         </div>
 
         {product.removable.length > 0 && (
           <fieldset>
-            <legend>Retirar ingredientes</legend>
+            <legend>Quer retirar algum ingrediente?</legend>
+
             <div className="option-grid">
               {product.removable.map((ingredient) => (
                 <label key={ingredient} className="check-option">
@@ -69,6 +79,7 @@ export default function ProductModal({ product, editingItem, onClose, onSave }) 
         {product.additions.length > 0 && (
           <fieldset>
             <legend>Adicionais</legend>
+
             <div className="option-grid">
               {product.additions.map((addition) => (
                 <label key={addition.name} className="check-option with-price">
@@ -95,13 +106,20 @@ export default function ProductModal({ product, editingItem, onClose, onSave }) 
           />
         </label>
 
-        <button
-          type="button"
-          className="primary-action"
-          onClick={() => onSave({ removedIngredients, additions, note })}
-        >
-          {editingItem ? 'Salvar alterações' : 'Adicionar ao pedido'} · {formatCurrency(unitTotal)}
-        </button>
+        <div className="modal-footer-action">
+          <div>
+            <span>Total do item</span>
+            <strong>{formatCurrency(unitTotal)}</strong>
+          </div>
+
+          <button
+            type="button"
+            className="primary-action"
+            onClick={() => onSave({ removedIngredients, additions, note })}
+          >
+            {editingItem ? 'Salvar alterações' : 'Adicionar ao pedido'}
+          </button>
+        </div>
       </section>
     </div>
   );

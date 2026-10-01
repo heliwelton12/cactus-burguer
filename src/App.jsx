@@ -39,7 +39,9 @@ export default function App() {
   useEffect(() => {
     const statusTimer = window.setInterval(() => setStatus(getStoreStatus()), 60_000);
     const onScroll = () => setShowBackToTop(window.scrollY > 550);
+
     window.addEventListener('scroll', onScroll, { passive: true });
+
     return () => {
       window.clearInterval(statusTimer);
       window.removeEventListener('scroll', onScroll);
@@ -103,6 +105,7 @@ export default function App() {
 
   function editItem(item) {
     const product = products.find((entry) => entry.id === item.productId);
+
     if (product) {
       setCartOpen(false);
       openProduct(product, item);
@@ -143,17 +146,24 @@ export default function App() {
 
   return (
     <>
-      <Header status={status} cartCount={cartCount} onOpenCart={() => setCartOpen(true)} />
+      <Header
+        status={status}
+        cartCount={cartCount}
+        onOpenCart={() => setCartOpen(true)}
+      />
 
-      <CategoryNav categories={categories} activeCategory={activeCategory} onSelect={setActiveCategory} />
+      <CategoryNav
+        categories={categories}
+        activeCategory={activeCategory}
+        onSelect={setActiveCategory}
+      />
 
       <main className="menu-main" id="cardapio">
-        <section className="menu-heading">
+        <section className="menu-heading menu-heading-simple">
           <div>
             <span>FEITO PARA MATAR SUA FOME</span>
             <h2>Nosso cardápio</h2>
           </div>
-          <p>Escolha, personalize e envie seu pedido pelo WhatsApp.</p>
         </section>
 
         <section className="products-grid" aria-live="polite">
@@ -169,17 +179,21 @@ export default function App() {
       </main>
 
       <footer className="site-footer">
-        <strong>{STORE.name}</strong>
+        <div className="footer-brand">
+          <span>CACTUS</span>
+          <strong>BURGUER</strong>
+        </div>
+
         <p>{STORE.tagline}</p>
-        <p>Retirada: {STORE.address}</p>
-        <p>Funcionamento: todos os dias, das 8h às 21h.</p>
-        <p>Pagamento: cartão, Pix e dinheiro.</p>
+
+        <div className="footer-info">
+          <p><strong>Retirada:</strong> {STORE.address}</p>
+          <p><strong>Funcionamento:</strong> todos os dias, das 8h às 21h.</p>
+          <p><strong>Pagamento:</strong> cartão, Pix e dinheiro.</p>
+        </div>
+
         <small>Pedidos pelo WhatsApp · Sujeitos à confirmação da loja</small>
       </footer>
-
-      <button className="mobile-cart-button" type="button" onClick={() => setCartOpen(true)}>
-        <span>Meu pedido</span><strong>{cartCount}</strong>
-      </button>
 
       <BackToTop visible={showBackToTop} />
 

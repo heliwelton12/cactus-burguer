@@ -4,7 +4,7 @@
 
 ### Cardápio digital com personalização, carrinho e pedidos pelo WhatsApp
 
-Projeto em código independente, desenvolvido com React + Vite, versionado no GitHub e preparado para publicação via Cloudflare Pages.
+Projeto em código independente, desenvolvido com React + Vite e preparado para versionamento no GitHub e publicação via Cloudflare Pages.
 
 > Esta aplicação **não depende do ChatGPT Sites**. O site atualmente usado pela lanchonete e seu QR Code permanecem separados e intocados enquanto não houver decisão explícita de migração.
 
@@ -14,9 +14,9 @@ Projeto em código independente, desenvolvido com React + Vite, versionado no Gi
 
 ## Status
 
-**v0.4.0 — base funcional validada localmente e primeiro push oficial concluído no GitHub.**
+**v0.3.0 — base funcional validada em desktop/mobile e planejamento técnico formalizado.**
 
-Já validados:
+Já validados localmente:
 
 - cardápio por categorias;
 - personalização por produto;
@@ -27,15 +27,10 @@ Já validados:
 - campo de troco somente para Dinheiro;
 - status ABERTO/FECHADO;
 - bloqueio de envio fora do horário sem apagar o carrinho;
-- envio em horário aberto por teste controlado;
-- mensagem completa do WhatsApp;
 - navegação mobile e responsividade;
-- botão “Meu pedido” e “Voltar ao topo”;
-- `npm run build`;
-- `npm run preview` e regressão curta;
-- primeiro push na branch `main`.
+- botão “Meu pedido” e “Voltar ao topo”.
 
-Ainda faltam antes da v1.0.0: assets oficiais, acessibilidade crítica, revisão de segurança, SEO final, publicação no Cloudflare Pages, PageSpeed/Lighthouse e regressão em produção.
+Ainda faltam para o primeiro push/deploy: build/preview final, validação da mensagem no WhatsApp em horário aberto, assets oficiais e gates de segurança/SEO/performance.
 
 ## Tecnologias
 
@@ -45,8 +40,7 @@ Ainda faltam antes da v1.0.0: assets oficiais, acessibilidade crítica, revisão
 - CSS responsivo
 - `localStorage`
 - integração com WhatsApp
-- Git/GitHub
-- Cloudflare Pages planejado
+- Git/GitHub e Cloudflare Pages planejados
 
 ## Executar localmente
 
@@ -105,18 +99,17 @@ cactus-burguer/
 | [Deploy](docs/DEPLOY.md) | fluxo localhost → GitHub → Cloudflare |
 | [Histórico de problemas](docs/HISTORICO-PROBLEMAS-CORRECOES.md) | bugs, decisões e correções |
 
-## Publicação
+## Regra de publicação desta fase
 
-O repositório oficial está no GitHub e a próxima etapa é publicar uma cópia separada no Cloudflare Pages.
-
-O site atual usado pela lanchonete e o QR Code continuam sem alterações.
+A versão em código permanece em desenvolvimento local até passar pelo gate descrito em `TESTES.md` e `docs/PLANO-DE-IMPLEMENTACAO.md`. Não fazer push/deploy de release antes da revisão.
 
 ## Próximas etapas
 
-1. revisar assets oficiais;
-2. concluir testes pendentes de acessibilidade e validação;
-3. revisar segurança e SEO;
-4. publicar no Cloudflare Pages;
-5. executar regressão na URL de produção;
-6. rodar PageSpeed/Lighthouse mobile e desktop;
-7. somente depois avaliar a release `v1.0.0`.
+1. executar `npm run build` e `npm run preview`;
+2. concluir regressão curta da v0.3.0;
+3. validar mensagem completa do WhatsApp em horário aberto;
+4. inserir/revisar assets oficiais;
+5. concluir segurança, SEO, acessibilidade e performance;
+6. criar o repositório GitHub;
+7. publicar uma cópia separada no Cloudflare Pages;
+8. regressão na URL real antes de qualquer release estável.

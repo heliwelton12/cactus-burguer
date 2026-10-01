@@ -5,16 +5,28 @@ export default function ProductCard({ product, number, onCustomize }) {
 
   return (
     <article className="product-card">
-      <div className="product-number">CACTUS / {String(number).padStart(2, '0')}</div>
+      <div className="product-card-accent" aria-hidden="true" />
+
+      <div className="product-card-header">
+        <span className="product-number">CACTUS / {String(number).padStart(2, '0')}</span>
+        <strong className="product-price">{formatCurrency(product.price)}</strong>
+      </div>
+
       <div className="product-main">
         <div>
           <h3>{product.name}</h3>
           {product.description && <p>{product.description}</p>}
         </div>
-        <strong>{formatCurrency(product.price)}</strong>
       </div>
-      <button type="button" className="product-action" onClick={() => onCustomize(product)}>
-        {hasCustomization ? 'Personalizar' : 'Adicionar'}
+
+      <button
+        type="button"
+        className="product-action"
+        onClick={() => onCustomize(product)}
+        aria-label={`${hasCustomization ? 'Personalizar' : 'Adicionar'} ${product.name}`}
+      >
+        <span>{hasCustomization ? 'Personalizar' : 'Adicionar'}</span>
+        <strong aria-hidden="true">+</strong>
       </button>
     </article>
   );
