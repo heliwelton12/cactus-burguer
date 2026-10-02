@@ -1,10 +1,10 @@
 import { formatCurrency } from '../utils/currency';
 
-export default function ProductCard({ product, number, onCustomize }) {
+export default function ProductCard({ product, number, highlighted = false, onCustomize }) {
   const hasCustomization = product.removable.length > 0 || product.additions.length > 0;
 
   return (
-    <article className="product-card">
+    <article className={`product-card ${highlighted ? 'is-recently-added' : ''}`}>
       <div className="product-card-accent" aria-hidden="true" />
 
       <div className="product-card-header">

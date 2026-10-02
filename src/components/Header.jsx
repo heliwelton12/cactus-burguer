@@ -19,7 +19,7 @@ function PaymentIcon() {
   );
 }
 
-export default function Header({ status, cartCount, onOpenCart }) {
+export default function Header({ status, cartCount, orderVersion, onOpenCart }) {
   return (
     <>
       <div className="top-strip">
@@ -38,14 +38,16 @@ export default function Header({ status, cartCount, onOpenCart }) {
           </div>
 
           <button
-            className="sticky-cart-button"
+            className={`sticky-cart-button ${cartCount > 0 ? 'has-items' : ''}`}
             type="button"
             onClick={onOpenCart}
             aria-label={`Abrir meu pedido com ${cartCount} ${cartCount === 1 ? 'item' : 'itens'}`}
           >
             <span className="cart-text cart-text-desktop">Meu pedido</span>
             <span className="cart-text cart-text-mobile">Pedido</span>
-            <strong>{cartCount}</strong>
+            <strong key={`${cartCount}-${orderVersion}`} className="order-count-bump">
+              {cartCount}
+            </strong>
           </button>
         </div>
       </nav>
@@ -57,6 +59,7 @@ export default function Header({ status, cartCount, onOpenCart }) {
             alt=""
             loading="eager"
             decoding="async"
+            fetchPriority="high"
           />
         </div>
 

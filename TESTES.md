@@ -104,3 +104,150 @@ Além do gate acima:
 | Ausência de botão Pedido duplicado no mobile | ⬜ | Apenas o cabeçalho deve manter a ação |
 | CTA Explorar cardápio com offset correto | ⬜ | Título não deve ficar escondido |
 | Regressão visual desktop/mobile | ⬜ | |
+
+## v0.6.0 — Cactchô / Etapa 1 (pendente de validação)
+
+| Teste | Status | Observação |
+|---|---|---|
+| Carregamento do `.riv` | ⬜ | `public/rive/cactcho.riv` |
+| Renderização desktop | ⬜ | canto inferior direito |
+| Renderização mobile 400×692 | ⬜ | sem cobrir ações essenciais |
+| Animação base / State Machine | ⬜ | `CactchoController` |
+| Cabeçalho e categorias sticky | ⬜ | regressão |
+| Carrinho e personalização | ⬜ | regressão |
+| Console sem erros | ⬜ | |
+| `npm run build` | ⬜ | |
+| `npm run preview` | ⬜ | |
+
+## v0.6.0 — Cactchô Etapa 2 (pendente)
+
+| Teste | Status | Observação |
+|---|---|---|
+| `trigger_wave` dispara após entrada | ⬜ | Aproximadamente 700 ms após carregar |
+| Aceno usa o braço correto | ⬜ | Validar visualmente |
+| Mão/pose do aceno natural | ⬜ | Se necessário, corrigir no Rive |
+| Retorno para `idle` | ⬜ | Não pode ficar preso em `wave` |
+| Piscar continua funcionando | ⬜ | |
+| Desktop preservado | ⬜ | Tamanho/posição sem mudança |
+| Mobile preservado | ⬜ | Tamanho/posição sem mudança |
+| Console sem erros | ⬜ | |
+
+## v0.6.0 — Cactchô Etapa 3 (pendente)
+
+| Teste | Status | Observação |
+|---|---|---|
+| Saudação por `America/Bahia` | ⬜ | Bom dia/tarde/noite |
+| Balão aparece após entrada | ⬜ | Sincronizado visualmente com o wave |
+| `Quero ajuda` | ⬜ | Exibe orientação curta |
+| `Vou escolher` | ⬜ | Recolhe o balão |
+| Fechar no X | ⬜ | |
+| Reabrir tocando no Cactchô | ⬜ | |
+| Recolhimento automático | ⬜ | Após alguns segundos sem interação |
+| Desktop | ⬜ | Não deve atrapalhar o cardápio |
+| iPhone | ⬜ | Não deve cobrir controles essenciais |
+| Wave/idle preservados | ⬜ | |
+
+## v0.6.0 — Cactchô Etapa 4 (pendente)
+
+| Teste | Status | Observação |
+|---|---|---|
+| Produto novo dispara `trigger_happy` | ⬜ | |
+| “Boa escolha!” aparece | ⬜ | |
+| Nome do produto correto | ⬜ | |
+| Continuar escolhendo | ⬜ | Fecha o balão |
+| Finalizar | ⬜ | Abre carrinho tradicional |
+| Editar item não dispara evento de novo produto | ⬜ | |
+| Mascote sem sombra artificial | ⬜ | |
+| Desktop | ⬜ | |
+| iPhone | ⬜ | |
+| Console sem erros | ⬜ | |
+
+## v0.6.0 — Cactchô Etapa 5 (pendente)
+
+| Teste | Status | Observação |
+|---|---|---|
+| Sombra inferior do Cactchô não aparece | ⬜ | Conferir pés no desktop/mobile |
+| Pés não ficaram visualmente cortados | ⬜ | Recorte deve ser mínimo |
+| Carrinho acima do header no desktop | ⬜ | |
+| Carrinho acima do header no iPhone | ⬜ | |
+| Modal de produto acima do header | ⬜ | |
+| Finalizar mostra resumo real | ⬜ | |
+| Quantidades corretas no resumo | ⬜ | |
+| Remoções/adicionais corretos | ⬜ | |
+| Total correto | ⬜ | |
+| `Tudo certo?` aparece | ⬜ | |
+| Quero alterar abre topo do carrinho | ⬜ | |
+| Sim, continuar abre checkout | ⬜ | |
+| Console sem erros | ⬜ | |
+
+## v0.6.0 — Cactchô Etapa 6 (pendente)
+
+| Teste | Status | Observação |
+|---|---|---|
+| Toast de item adicionado removido | ⬜ | Cactchô é o feedback |
+| Nome obrigatório | ⬜ | |
+| Pix | ⬜ | |
+| Cartão | ⬜ | |
+| Dinheiro sem troco | ⬜ | |
+| Dinheiro com troco | ⬜ | |
+| Observação opcional | ⬜ | |
+| Revisão dos dados | ⬜ | |
+| Dados persistem no checkout tradicional | ⬜ | |
+| `cart_count` atualizado | ⬜ | |
+| `trigger_success` | ⬜ | |
+| Enviar no WhatsApp exige clique/toque | ⬜ | |
+| Loja fechada bloqueia envio e preserva carrinho | ⬜ | |
+| Desktop | ⬜ | |
+| iPhone | ⬜ | |
+| Console sem erros | ⬜ | |
+
+## v0.6.0 — Cactchô Etapa 7 (pendente)
+
+| Teste | Status | Observação |
+|---|---|---|
+| iPhone sem zoom ao focar input | ⬜ | Fonte mobile >= 16 px |
+| Pedido do header abre Cactchô | ⬜ | |
+| Aumentar quantidade | ⬜ | |
+| Diminuir quantidade | ⬜ | |
+| Remover item | ⬜ | |
+| Editar item | ⬜ | Abre ProductModal |
+| Salvar edição volta ao resumo | ⬜ | |
+| Total recalculado | ⬜ | |
+| Pedido vazio | ⬜ | |
+| Checkout guiado | ⬜ | |
+| Persistência após F5 | ⬜ | |
+| Desktop | ⬜ | |
+| iPhone | ⬜ | |
+| Console sem erros | ⬜ | |
+
+## v0.6.0 — Cactchô Etapa 8 (pendente de regressão)
+
+| Teste | Status | Observação |
+|---|---|---|
+| Modo compacto ao rolar | ⬜ | Reabre ao tocar |
+| `is_talking` | ⬜ | |
+| `is_thinking` | ⬜ | |
+| `is_closed` | ⬜ | |
+| Progresso do atendimento | ⬜ | Pedido/Dados/Pagamento/Revisão |
+| Retomar após fechar balão | ⬜ | |
+| Retomar após F5 | ⬜ | Com pedido ativo |
+| Loja fechada preserva pedido | ⬜ | |
+| Produto recém-adicionado destacado | ⬜ | |
+| Troca de categoria suave | ⬜ | |
+| Contador Pedido reage | ⬜ | |
+| Abrir WhatsApp não limpa pedido | ⬜ | |
+| `Ainda não` preserva pedido | ⬜ | |
+| `Sim, enviei` limpa pedido | ⬜ | |
+| Escape no Cactchô | ⬜ | |
+| Escape + trap de foco no ProductModal | ⬜ | |
+| Reduced motion | ⬜ | |
+| iPhone | ⬜ | |
+| Desktop | ⬜ | |
+| Console sem erros | ⬜ | |
+| Build | ⬜ | |
+| Preview | ⬜ | |
+
+
+### Validação técnica da Etapa 8
+- ✅ Sintaxe JS/JSX validada com TypeScript.
+- ⏳ Instalação de dependências/build não concluídos neste ambiente por limite de tempo; validar localmente com `npm install`, `npm run build` e `npm run preview`.

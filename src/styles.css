@@ -149,6 +149,21 @@ textarea:focus-visible {
   font-size: 12px;
 }
 
+
+.sticky-cart-button.has-items {
+  border-color: rgba(246, 163, 21, .26);
+}
+
+.order-count-bump {
+  animation: order-count-bump .34s ease-out;
+}
+
+@keyframes order-count-bump {
+  0% { transform: scale(.78); }
+  55% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
 .cart-text-mobile {
   display: none;
 }
@@ -502,6 +517,22 @@ textarea:focus-visible {
   gap: 14px;
 }
 
+.products-grid--transition {
+  animation: category-enter .22s ease-out both;
+}
+
+@keyframes category-enter {
+  from {
+    opacity: .35;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .product-card {
   position: relative;
   overflow: hidden;
@@ -519,6 +550,22 @@ textarea:focus-visible {
   transform: translateY(-2px);
   border-color: #c58e4d;
   box-shadow: 0 14px 36px rgba(75, 38, 14, .14);
+}
+
+.product-card.is-recently-added {
+  animation: product-added-highlight 1.55s ease-out both;
+}
+
+@keyframes product-added-highlight {
+  0% {
+    border-color: #df8516;
+    box-shadow: 0 0 0 4px rgba(223, 133, 22, .16), var(--shadow-soft);
+  }
+
+  100% {
+    border-color: #d2ad77;
+    box-shadow: var(--shadow-soft);
+  }
 }
 
 .product-card-accent {
@@ -655,7 +702,7 @@ textarea:focus-visible {
 .drawer-root {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 100;
   display: grid;
   place-items: center;
 }
@@ -1087,7 +1134,7 @@ legend {
   position: fixed;
   left: 50%;
   bottom: 80px;
-  z-index: 80;
+  z-index: 120;
   width: min(520px, calc(100% - 32px));
   transform: translateX(-50%);
   padding: 13px 16px;
@@ -1427,4 +1474,768 @@ legend {
     transition: none !important;
     animation: none !important;
   }
+}
+
+/* Cactchô — v0.6.0 experimental: etapa 1.1, mascote isolado refinado */
+.cactcho-stage {
+  position: fixed;
+  right: 16px;
+  bottom: 8px;
+  z-index: 55;
+  width: clamp(120px, 10vw, 160px);
+  height: clamp(138px, 12.5vw, 188px);
+  pointer-events: auto;
+  transform-origin: right bottom;
+  transition: width .2s ease, height .2s ease, opacity .2s ease, transform .2s ease;
+}
+
+.cactcho-stage.is-compact {
+  width: clamp(88px, 7.5vw, 116px);
+  height: clamp(102px, 9vw, 136px);
+  opacity: .96;
+}
+
+.cactcho-mascot-button {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+  border-radius: 28px;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cactcho-mascot-button:focus-visible {
+  outline: 3px solid #f6a315;
+  outline-offset: 3px;
+}
+
+.cactcho-canvas {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  clip-path: inset(0 0 2.4% 0);
+}
+
+/* O mascote deve permanecer sem sombra artificial. */
+.cactcho-stage,
+.cactcho-stage::before,
+.cactcho-stage::after,
+.cactcho-mascot-button,
+.cactcho-canvas,
+.cactcho-canvas canvas {
+  filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+.cactcho-stage::before,
+.cactcho-stage::after {
+  display: none !important;
+  content: none !important;
+}
+
+.cactcho-mascot-button,
+.cactcho-canvas,
+.cactcho-canvas canvas {
+  background: transparent !important;
+}
+
+.cactcho-bubble {
+  position: fixed;
+  right: 150px;
+  bottom: 72px;
+  z-index: 56;
+  width: min(315px, calc(100vw - 190px));
+  padding: 17px 18px 16px;
+  border: 1px solid rgba(124, 73, 28, .18);
+  border-radius: 20px 20px 7px 20px;
+  color: #342116;
+  background: rgba(255, 249, 237, .97);
+  box-shadow: 0 16px 40px rgba(42, 24, 11, .18);
+  backdrop-filter: blur(12px);
+}
+
+.cactcho-bubble::after {
+  content: "";
+  position: absolute;
+  right: -9px;
+  bottom: 18px;
+  width: 18px;
+  height: 18px;
+  background: rgba(255, 249, 237, .97);
+  border-top: 1px solid rgba(124, 73, 28, .18);
+  border-right: 1px solid rgba(124, 73, 28, .18);
+  transform: rotate(45deg);
+}
+
+.cactcho-progress {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+  margin: 0 34px 11px 0;
+}
+
+.cactcho-progress span {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  color: #9a806d;
+  font-size: 8px;
+  font-weight: 850;
+  line-height: 1.05;
+  text-align: center;
+}
+
+.cactcho-progress b {
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(108, 67, 38, .16);
+  border-radius: 50%;
+  color: #80614d;
+  background: rgba(108, 67, 38, .045);
+  font-size: 9px;
+}
+
+.cactcho-progress span.is-active {
+  color: #9d4d18;
+}
+
+.cactcho-progress span.is-active b {
+  color: #fffaf0;
+  border-color: #c96d0f;
+  background: #c96d0f;
+}
+
+.cactcho-progress span.is-done {
+  color: #487254;
+}
+
+.cactcho-progress span.is-done b {
+  color: #fff;
+  border-color: #34744b;
+  background: #34744b;
+}
+
+.cactcho-bubble-name {
+  display: block;
+  margin-bottom: 4px;
+  color: #bc650d;
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: .16em;
+}
+
+.cactcho-bubble-greeting {
+  display: block;
+  padding-right: 25px;
+  color: #2c1a10;
+  font: 900 23px/1.05 Georgia, "Times New Roman", serif;
+}
+
+.cactcho-bubble p {
+  margin: 8px 0 0;
+  color: #664a38;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.cactcho-bubble p strong {
+  color: #3e281a;
+  font-weight: 900;
+}
+
+.cactcho-order-summary {
+  max-height: 180px;
+  overflow-y: auto;
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  padding-right: 4px;
+}
+
+.cactcho-summary-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 10px;
+  border: 1px solid rgba(108, 67, 38, .14);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, .54);
+}
+
+.cactcho-summary-item > div {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.cactcho-summary-item strong {
+  color: #3e281a;
+  font-size: 12px;
+}
+
+.cactcho-summary-item small {
+  color: #80614d;
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.cactcho-summary-item > span {
+  flex: 0 0 auto;
+  color: #9b4714;
+  font-size: 11px;
+  font-weight: 950;
+}
+
+
+.cactcho-inline-status {
+  margin-top: 9px !important;
+  padding: 7px 9px;
+  border-radius: 9px;
+  color: #356a47 !important;
+  background: rgba(47, 129, 78, .08);
+  font-size: 10.5px !important;
+  font-weight: 900;
+}
+
+.cactcho-order-summary--editable {
+  max-height: 235px;
+}
+
+.cactcho-summary-item--editable {
+  display: block;
+}
+
+.cactcho-summary-main {
+  min-width: 0;
+}
+
+.cactcho-summary-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cactcho-summary-title-row > span {
+  flex: 0 0 auto;
+  color: #9b4714;
+  font-size: 11px;
+  font-weight: 950;
+}
+
+.cactcho-item-controls {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.cactcho-quantity-control {
+  display: grid;
+  grid-template-columns: 29px 28px 29px;
+  align-items: center;
+  min-height: 32px;
+  border: 1px solid rgba(108, 67, 38, .18);
+  border-radius: 9px;
+  overflow: hidden;
+  background: #fffdf7;
+}
+
+.cactcho-quantity-control button {
+  height: 100%;
+  border: 0;
+  color: #5b3b27;
+  background: transparent;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.cactcho-quantity-control span {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  border-inline: 1px solid rgba(108, 67, 38, .12);
+  color: #3e281a;
+  font-size: 11px;
+  font-weight: 950;
+}
+
+.cactcho-item-action {
+  min-height: 32px;
+  border: 1px solid rgba(108, 67, 38, .18);
+  border-radius: 9px;
+  padding: 0 8px;
+  color: #6c4326;
+  background: transparent;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.cactcho-item-action.is-remove {
+  color: #9b3b25;
+  border-color: rgba(155, 59, 37, .20);
+}
+
+.cactcho-item-action:hover,
+.cactcho-item-action:focus-visible,
+.cactcho-quantity-control button:hover,
+.cactcho-quantity-control button:focus-visible {
+  background: rgba(201, 109, 15, .08);
+}
+
+.cactcho-summary-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(108, 67, 38, .16);
+}
+
+.cactcho-summary-total span {
+  color: #76523a;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.cactcho-summary-total strong {
+  color: #8d3515;
+  font-size: 17px;
+}
+
+.cactcho-summary-question {
+  margin-top: 10px !important;
+  color: #3e281a !important;
+  font-weight: 950;
+}
+
+.cactcho-bubble-actions--summary {
+  flex-wrap: nowrap;
+}
+
+.cactcho-bubble-actions--summary button {
+  flex: 1 1 0;
+}
+
+.cactcho-bubble-actions--checkout {
+  flex-wrap: nowrap;
+}
+
+.cactcho-bubble-actions--checkout button {
+  flex: 1 1 auto;
+}
+
+.cactcho-bubble-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: #6b4d39;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cactcho-bubble-close:hover,
+.cactcho-bubble-close:focus-visible {
+  background: rgba(108, 72, 42, .08);
+}
+
+.cactcho-bubble-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 13px;
+}
+
+.cactcho-bubble-actions button {
+  min-height: 39px;
+  border: 1px solid #d37a16;
+  border-radius: 11px;
+  padding: 0 13px;
+  color: #fffaf0;
+  background: #c96d0f;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.cactcho-bubble-actions button.is-secondary {
+  color: #6c4326;
+  background: transparent;
+  border-color: rgba(108, 67, 38, .24);
+}
+
+
+.cactcho-bubble-actions button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+.cactcho-field {
+  display: grid;
+  gap: 6px;
+  margin-top: 13px;
+  color: #5b3b27;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.cactcho-field input,
+.cactcho-field textarea {
+  width: 100%;
+  border: 1px solid rgba(108, 67, 38, .22);
+  border-radius: 11px;
+  padding: 10px 11px;
+  color: #342116;
+  background: #fffdf7;
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+}
+
+.cactcho-field textarea {
+  resize: vertical;
+  min-height: 76px;
+}
+
+.cactcho-field input:focus,
+.cactcho-field textarea:focus {
+  border-color: #d37a16;
+  box-shadow: 0 0 0 3px rgba(211, 122, 22, .13);
+}
+
+.cactcho-form-error,
+.cactcho-closed-message {
+  margin-top: 9px !important;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 11px !important;
+  font-weight: 800;
+}
+
+.cactcho-form-error {
+  color: #8f2d19 !important;
+  background: rgba(179, 55, 30, .08);
+}
+
+.cactcho-closed-message {
+  color: #70431f !important;
+  background: rgba(216, 151, 63, .12);
+}
+
+.cactcho-payment-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  margin-top: 13px;
+}
+
+.cactcho-payment-options button {
+  min-height: 42px;
+  border: 1px solid rgba(108, 67, 38, .22);
+  border-radius: 11px;
+  color: #6c4326;
+  background: rgba(255, 255, 255, .55);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.cactcho-payment-options button.is-selected {
+  color: #fffaf0;
+  border-color: #c96d0f;
+  background: #c96d0f;
+}
+
+.cactcho-customer-review {
+  display: grid;
+  gap: 7px;
+  margin-top: 13px;
+}
+
+.cactcho-customer-review > div {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 9px;
+  border-radius: 10px;
+  background: rgba(108, 67, 38, .055);
+}
+
+.cactcho-customer-review span {
+  color: #80614d;
+  font-size: 11px;
+}
+
+.cactcho-customer-review strong {
+  max-width: 62%;
+  color: #3e281a;
+  font-size: 11px;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.cactcho-customer-review .is-total {
+  border-top: 1px solid rgba(108, 67, 38, .14);
+  background: rgba(201, 109, 15, .07);
+}
+
+.cactcho-customer-review .is-total strong {
+  color: #9b4714;
+  font-size: 14px;
+}
+
+/* Etapa 6: estados longos recebem um pouco mais de espaço sem virar modal gigante. */
+.cactcho-bubble--summary,
+.cactcho-bubble--name,
+.cactcho-bubble--payment,
+.cactcho-bubble--change,
+.cactcho-bubble--note,
+.cactcho-bubble--review,
+.cactcho-bubble--success,
+.cactcho-bubble--sentConfirm {
+  width: min(330px, calc(100vw - 190px));
+}
+
+.cactcho-bubble-actions button:focus-visible,
+.cactcho-bubble-close:focus-visible {
+  outline: 3px solid #f6a315;
+  outline-offset: 2px;
+}
+
+@media (max-width: 820px) {
+  .cactcho-field input,
+  .cactcho-field textarea {
+    font-size: 16px;
+  }
+
+  .cactcho-bubble {
+    right: 92px;
+    bottom: 74px;
+    width: min(270px, calc(100vw - 112px));
+    padding: 15px 16px 14px;
+    border-radius: 18px 18px 6px 18px;
+  }
+
+  .cactcho-bubble-greeting {
+    font-size: 21px;
+  }
+
+  .cactcho-bubble p {
+    font-size: 12.5px;
+  }
+
+  .cactcho-bubble-actions {
+    gap: 7px;
+  }
+
+  .cactcho-bubble-actions button {
+    min-height: 44px;
+    padding-inline: 11px;
+  }
+
+  .cactcho-payment-options button,
+  .cactcho-item-action,
+  .cactcho-quantity-control {
+    min-height: 44px;
+  }
+
+  .cactcho-stage.is-compact {
+    width: 72px;
+    height: 86px;
+    right: 4px;
+    bottom: 6px;
+  }
+}
+
+@media (max-width: 820px) {
+  .cactcho-stage {
+    right: 6px;
+    bottom: 12px;
+    width: 90px;
+    height: 106px;
+    z-index: 55;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 430px) {
+  .cactcho-stage {
+    right: 6px;
+    bottom: 10px;
+    width: 84px;
+    height: 100px;
+    z-index: 55;
+    overflow: visible;
+  }
+
+  .cactcho-bubble {
+    right: 78px;
+    bottom: 78px;
+    width: min(258px, calc(100vw - 96px));
+    padding: 14px 14px 13px;
+  }
+
+  .cactcho-bubble::after {
+    right: -8px;
+    bottom: 14px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .cactcho-bubble-greeting {
+    font-size: 20px;
+  }
+
+  .cactcho-bubble-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cactcho-bubble-actions:has(button:only-child) {
+    grid-template-columns: 1fr;
+  }
+
+  .cactcho-bubble-actions button {
+    min-width: 0;
+    padding-inline: 8px;
+    font-size: 11px;
+  }
+
+  .cactcho-bubble-actions--checkout {
+    grid-template-columns: 1.45fr .8fr;
+  }
+}
+
+
+/* Etapa 5 — diálogo e checkout sempre acima do cabeçalho sticky. */
+.drawer-root,
+.modal-root {
+  isolation: isolate;
+}
+
+/* O recorte é deliberadamente mínimo: remove apenas a sombra inferior
+   incorporada na arte do .riv, sem mudar o tamanho aprovado do Cactchô. */
+.cactcho-canvas canvas {
+  clip-path: inset(0 0 2.4% 0);
+}
+
+@media (max-width: 430px) {
+  .cactcho-order-summary {
+    max-height: 175px;
+  }
+
+  .cactcho-order-summary--editable {
+    max-height: 210px;
+  }
+
+  .cactcho-summary-item {
+    padding: 8px;
+  }
+
+  .cactcho-item-controls {
+    grid-template-columns: auto 1fr 1fr;
+    gap: 5px;
+  }
+
+  .cactcho-quantity-control {
+    grid-template-columns: 30px 27px 30px;
+    min-height: 36px;
+  }
+
+  .cactcho-item-action {
+    min-height: 36px;
+    font-size: 10px;
+  }
+
+  .cactcho-bubble-actions--summary {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cactcho-bubble--summary,
+  .cactcho-bubble--name,
+  .cactcho-bubble--payment,
+  .cactcho-bubble--change,
+  .cactcho-bubble--note,
+  .cactcho-bubble--review,
+  .cactcho-bubble--success,
+  .cactcho-bubble--sentConfirm {
+    width: min(272px, calc(100vw - 94px));
+    max-height: min(520px, calc(100dvh - 170px));
+    overflow-y: auto;
+  }
+
+  .cactcho-payment-options {
+    grid-template-columns: 1fr;
+  }
+
+  .cactcho-payment-options button {
+    min-height: 39px;
+  }
+
+  .cactcho-customer-review strong {
+    max-width: 58%;
+  }
+
+  .cactcho-progress {
+    margin-right: 30px;
+    gap: 2px;
+  }
+
+  .cactcho-progress span {
+    font-size: 7px;
+  }
+
+  .cactcho-progress b {
+    width: 19px;
+    height: 19px;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .products-grid--transition,
+  .product-card.is-recently-added,
+  .order-count-bump {
+    animation: none !important;
+  }
+
+  .cactcho-stage {
+    transition: none !important;
+  }
+}
+
+
+.sticky-cart-button:focus-visible,
+.category-scroll button:focus-visible,
+.product-action:focus-visible,
+.hero-primary-action:focus-visible,
+.primary-action:focus-visible,
+.icon-button:focus-visible,
+.back-to-top:focus-visible {
+  outline: 3px solid #f6a315;
+  outline-offset: 3px;
 }

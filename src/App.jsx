@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Header from './components/Header';
 import CategoryNav from './components/CategoryNav';
 import ProductCard from './components/ProductCard';
 import ProductModal from './components/ProductModal';
-import CartDrawer from './components/CartDrawer';
 import BackToTop from './components/BackToTop';
+import CactchoMascot from './components/CactchoMascot';
 import { STORE } from './config/store';
 import { categories, products } from './data/menu';
 import { getStoreStatus } from './utils/openingHours';
@@ -28,10 +28,12 @@ export default function App() {
   const [customer, setCustomer] = useState(() => ({ ...initialCustomer, ...loadCustomer() }));
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [editingItem, setEditingItem] = useState(null);
-  const [cartOpen, setCartOpen] = useState(false);
   const [status, setStatus] = useState(() => getStoreStatus());
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [notice, setNotice] = useState('');
+  const [cactchoEvent, setCactchoEvent] = useState(null);
+  const [recentProductId, setRecentProductId] = useState(null);
+  const [orderVersion, setOrderVersion] = useState(0);
+  const highlightTimerRef = useRef(null);
 
   useEffect(() => saveCart(cart), [cart]);
   useEffect(() => saveCustomer(customer), [customer]);
@@ -45,6 +47,7 @@ export default function App() {
     return () => {
       window.clearInterval(statusTimer);
       window.removeEventListener('scroll', onScroll);
+      window.clearTimeout(highlightTimerRef.current);
     };
   }, []);
 
@@ -74,7 +77,13 @@ export default function App() {
           ? { ...item, ...customization }
           : item
       )));
-      setNotice('Alterações salvas no pedido.');
+
+      setOrderVersion((current) => current + 1);
+      setCactchoEvent({
+        id: `${editingItem.cartId}-${Date.now()}`,
+        type: 'item-updated',
+        productName: selectedProduct.name,
+      });
     } else {
       setCart((current) => [...current, {
         cartId: createCartId(selectedProduct.id),
@@ -84,11 +93,23 @@ export default function App() {
         quantity: 1,
         ...customization,
       }]);
-      setNotice(`${selectedProduct.name} adicionado ao pedido.`);
+
+      setOrderVersion((current) => current + 1);
+      setRecentProductId(selectedProduct.id);
+      window.clearTimeout(highlightTimerRef.current);
+      highlightTimerRef.current = window.setTimeout(() => {
+        setRecentProductId(null);
+      }, 1600);
+
+      setCactchoEvent({
+        id: `${selectedProduct.id}-${Date.now()}`,
+        type: 'item-added',
+        productName: selectedProduct.name,
+      });
+
     }
 
     closeProduct();
-    window.setTimeout(() => setNotice(''), 2200);
   }
 
   function changeQuantity(cartId, delta) {
@@ -97,51 +118,81 @@ export default function App() {
         ? { ...item, quantity: Math.max(0, item.quantity + delta) }
         : item)
       .filter((item) => item.quantity > 0));
+    setOrderVersion((current) => current + 1);
   }
 
   function removeItem(cartId) {
     setCart((current) => current.filter((item) => item.cartId !== cartId));
+    setOrderVersion((current) => current + 1);
   }
 
   function editItem(item) {
     const product = products.find((entry) => entry.id === item.productId);
 
     if (product) {
-      setCartOpen(false);
       openProduct(product, item);
     }
   }
 
-  function changeCustomer(field, value) {
-    setCustomer((current) => ({ ...current, [field]: value }));
-  }
-
-  function handleSendOrder() {
+  function sendOrderWithCustomer(customerData) {
     const currentStatus = getStoreStatus();
     setStatus(currentStatus);
 
     if (!currentStatus.open) {
-      setNotice('Estamos fechados no momento. Nosso horário de funcionamento é das 8h às 21h.');
-      return;
+      return {
+        ok: false,
+        message: 'Estamos fechados no momento. Nosso horário é das 8h às 21h.',
+      };
     }
 
-    if (!customer.name.trim()) {
-      setNotice('Digite seu nome antes de enviar o pedido.');
-      return;
+    if (!customerData.name.trim()) {
+      return {
+        ok: false,
+        message: 'Digite seu nome antes de enviar o pedido.',
+      };
     }
 
     if (!cart.length) {
-      setNotice('Adicione pelo menos um item ao pedido.');
-      return;
+      return {
+        ok: false,
+        message: 'Adicione pelo menos um item ao pedido.',
+      };
     }
 
-    if (customer.payment === 'Dinheiro' && customer.changeFor && Number(customer.changeFor) <= 0) {
-      setNotice('Informe um valor válido para o troco.');
-      return;
+    if (
+      customerData.payment === 'Dinheiro'
+      && customerData.changeFor
+      && Number(customerData.changeFor) <= 0
+    ) {
+      return {
+        ok: false,
+        message: 'Informe um valor válido para o troco.',
+      };
     }
 
-    const message = buildWhatsAppMessage({ cart, customer });
+    setCustomer(customerData);
+
+    const message = buildWhatsAppMessage({
+      cart,
+      customer: customerData,
+    });
+
     openWhatsApp(message);
+    return { ok: true };
+  }
+
+  function handleGuidedCustomerSave(customerData) {
+    setCustomer(customerData);
+  }
+
+  function handleGuidedSend(customerData) {
+    return sendOrderWithCustomer(customerData);
+  }
+
+  function clearCompletedOrder() {
+    setCart([]);
+    setCustomer(initialCustomer);
+    setOrderVersion((current) => current + 1);
   }
 
   return (
@@ -149,7 +200,13 @@ export default function App() {
       <Header
         status={status}
         cartCount={cartCount}
-        onOpenCart={() => setCartOpen(true)}
+        orderVersion={orderVersion}
+        onOpenCart={() => {
+          setCactchoEvent({
+            id: `open-order-${Date.now()}`,
+            type: 'open-order',
+          });
+        }}
       />
 
       <CategoryNav
@@ -166,12 +223,17 @@ export default function App() {
           </div>
         </section>
 
-        <section className="products-grid" aria-live="polite">
+        <section
+          className="products-grid products-grid--transition"
+          key={activeCategory}
+          aria-live="polite"
+        >
           {visibleProducts.map((product, index) => (
             <ProductCard
               key={product.id}
               product={product}
               number={index + 1}
+              highlighted={recentProductId === product.id}
               onCustomize={openProduct}
             />
           ))}
@@ -197,7 +259,18 @@ export default function App() {
 
       <BackToTop visible={showBackToTop} />
 
-      {notice && <div className="toast" role="status">{notice}</div>}
+      <CactchoMascot
+        event={cactchoEvent}
+        cart={cart}
+        customer={customer}
+        status={status}
+        onSaveCustomer={handleGuidedCustomerSave}
+        onSendOrder={handleGuidedSend}
+        onChangeQuantity={changeQuantity}
+        onRemoveItem={removeItem}
+        onEditItem={editItem}
+        onClearOrder={clearCompletedOrder}
+      />
 
       {selectedProduct && (
         <ProductModal
@@ -208,18 +281,6 @@ export default function App() {
         />
       )}
 
-      <CartDrawer
-        open={cartOpen}
-        cart={cart}
-        customer={customer}
-        status={status}
-        onClose={() => setCartOpen(false)}
-        onChangeCustomer={changeCustomer}
-        onChangeQuantity={changeQuantity}
-        onRemove={removeItem}
-        onEdit={editItem}
-        onSend={handleSendOrder}
-      />
     </>
   );
 }

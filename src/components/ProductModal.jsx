@@ -1,16 +1,61 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { formatCurrency } from '../utils/currency';
 
 export default function ProductModal({ product, editingItem, onClose, onSave }) {
   const [removedIngredients, setRemovedIngredients] = useState([]);
   const [selectedAdditions, setSelectedAdditions] = useState([]);
   const [note, setNote] = useState('');
+  const modalRef = useRef(null);
+  const closeButtonRef = useRef(null);
 
   useEffect(() => {
     setRemovedIngredients(editingItem?.removedIngredients ?? []);
     setSelectedAdditions(editingItem?.additions?.map((addition) => addition.name) ?? []);
     setNote(editingItem?.note ?? '');
   }, [product, editingItem]);
+
+  useEffect(() => {
+    const previousFocus = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = 'hidden';
+    closeButtonRef.current?.focus({ preventScroll: true });
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onClose();
+        return;
+      }
+
+      if (event.key !== 'Tab' || !modalRef.current) return;
+
+      const focusable = [...modalRef.current.querySelectorAll(
+        'button:not([disabled]), input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      )].filter((element) => element.offsetParent !== null);
+
+      if (!focusable.length) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', handleKeyDown);
+      previousFocus?.focus?.({ preventScroll: true });
+    };
+  }, []);
 
   const additions = useMemo(
     () => product.additions.filter((addition) => selectedAdditions.includes(addition.name)),
@@ -39,7 +84,7 @@ export default function ProductModal({ product, editingItem, onClose, onSave }) 
     <div className="modal-root" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
       <button className="modal-backdrop" type="button" aria-label="Fechar personalização" onClick={onClose} />
 
-      <section className="product-modal">
+      <section className="product-modal" ref={modalRef}>
         <div className="modal-heading">
           <div>
             <span>MONTE DO SEU JEITO</span>
@@ -47,7 +92,13 @@ export default function ProductModal({ product, editingItem, onClose, onSave }) 
             <p>{product.description}</p>
           </div>
 
-          <button type="button" className="icon-button" onClick={onClose} aria-label="Fechar">
+          <button
+            ref={closeButtonRef}
+            type="button"
+            className="icon-button"
+            onClick={onClose}
+            aria-label="Fechar"
+          >
             ×
           </button>
         </div>
