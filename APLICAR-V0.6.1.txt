@@ -1,0 +1,34 @@
+CACTUS BURGUER — v0.6.1 ACABAMENTO
+
+Este pacote reúne as melhorias aprovadas antes do próximo deploy.
+
+ALTERAÇÕES
+- favicon oficial do Cactchô;
+- hero responsivo em AVIF/WebP, sem trocar a arte;
+- preload responsivo do hero;
+- contraste dos botões do Cactchô;
+- carregamento sob demanda do ProductModal;
+- Cactchô/Rive separado do bundle inicial e ativado após idle;
+- fallback estático do Cactchô se o Rive falhar;
+- proteção contra reprocessamento do mesmo evento;
+- cache melhorado;
+- headers de segurança (CSP compatível com Rive/WASM, HSTS e COOP);
+- noindex/nofollow mantido durante staging.
+
+COMO APLICAR
+1. Faça backup/commit da pasta atual.
+2. Copie o conteúdo do pacote sobre D:\cactus-burguer.
+3. NÃO apague a pasta .git.
+4. Rode:
+   npm install
+   npm run build
+   npm run preview
+5. Teste PC e iPhone.
+6. Antes do push, rode:
+   git diff --check
+   git status
+
+IMPORTANTE
+- O npm install deve sincronizar o package-lock.json para a versão 0.6.1.
+- O deploy ainda NÃO foi feito por este pacote.
+- O noindex e o robots.txt continuam bloqueando indexação propositalmente.

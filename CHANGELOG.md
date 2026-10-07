@@ -2,6 +2,20 @@
 
 Todas as mudanças relevantes do projeto serão registradas neste arquivo.
 
+## [0.6.1] - 2026-10-05
+
+### Adicionado
+- Favicon oficial do Cactchô para navegador e iOS.
+- Hero responsivo AVIF/WebP.
+- Fallback visual do Cactchô em caso de falha do Rive.
+- CSP, HSTS e COOP nos headers do Cloudflare Pages.
+
+### Melhorado
+- Contraste dos botões do Cactchô para acessibilidade.
+- Carregamento inicial com code splitting do Cactchô/Rive e ProductModal.
+- Preload e cache da imagem principal.
+- Proteção contra processamento repetido do mesmo evento do Cactchô.
+
 ## [0.6.0-final-candidate] - 2026-10-02
 
 ### Ajustado

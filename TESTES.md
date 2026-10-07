@@ -251,3 +251,24 @@ Além do gate acima:
 ### Validação técnica da Etapa 8
 - ✅ Sintaxe JS/JSX validada com TypeScript.
 - ⏳ Instalação de dependências/build não concluídos neste ambiente por limite de tempo; validar localmente com `npm install`, `npm run build` e `npm run preview`.
+
+## v0.6.1 — acabamento pré-deploy
+
+- [ ] favicon aparece na aba sem cache antigo;
+- [ ] hero mantém o mesmo enquadramento desktop;
+- [ ] hero mantém o mesmo enquadramento iPhone;
+- [ ] Cactchô aparece após carregamento inicial;
+- [ ] saudação automática funciona;
+- [ ] botão Pedido abre o Cactchô mesmo se tocado cedo;
+- [ ] adicionar item dispara feedback do Cactchô;
+- [ ] editar/remover/quantidade;
+- [ ] ProductModal abre normalmente após lazy load;
+- [ ] fallback estático mantém atendimento caso Rive falhe;
+- [ ] contraste do botão do Cactchô aprovado no Lighthouse;
+- [ ] CSP não bloqueia Rive, imagens ou scripts;
+- [ ] WhatsApp abre somente por ação do usuário;
+- [ ] build;
+- [ ] preview;
+- [ ] PC;
+- [ ] iPhone;
+- [ ] PageSpeed/Lighthouse pós-deploy.

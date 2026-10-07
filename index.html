@@ -8,7 +8,7 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="description" content="Cardápio digital da Cactus Burguer. Escolha, personalize seu pedido e envie para a loja pelo WhatsApp." />
 
-    <!-- Staging paralelo: manter sem indexação até a migração oficial. -->
+    <!-- Staging: manter sem indexação até a troca oficial do QR/domínio. -->
     <meta name="robots" content="noindex, nofollow" />
 
     <meta property="og:title" content="Cactus Burguer | Cardápio Digital" />
@@ -17,7 +17,22 @@
     <meta property="og:locale" content="pt_BR" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <link rel="preload" href="/images/cactus-hero-original.webp" as="image" type="image/webp" />
+    <!-- Favicon oficial do Cactchô -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- LCP: preload responsivo da arte principal, priorizando AVIF. -->
+    <link
+      rel="preload"
+      as="image"
+      type="image/avif"
+      href="/images/cactus-hero-v061-960.avif"
+      imagesrcset="/images/cactus-hero-v061-640.avif 640w, /images/cactus-hero-v061-960.avif 960w, /images/cactus-hero-v061-1080.avif 1080w"
+      imagesizes="(max-width: 820px) 100vw, 71vw"
+      fetchpriority="high"
+    />
 
     <title>Cactus Burguer | Cardápio Digital</title>
   </head>

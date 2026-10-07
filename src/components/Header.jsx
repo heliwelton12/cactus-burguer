@@ -54,13 +54,27 @@ export default function Header({ status, cartCount, orderVersion, onOpenCart }) 
 
       <header className="site-header" id="topo">
         <div className="hero-photo-layer" aria-hidden="true">
-          <img
-            src="/images/cactus-hero-original.webp"
-            alt=""
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-          />
+          <picture>
+            <source
+              type="image/avif"
+              srcSet="/images/cactus-hero-v061-640.avif 640w, /images/cactus-hero-v061-960.avif 960w, /images/cactus-hero-v061-1080.avif 1080w"
+              sizes="(max-width: 820px) 100vw, 71vw"
+            />
+            <source
+              type="image/webp"
+              srcSet="/images/cactus-hero-v061-640.webp 640w, /images/cactus-hero-v061-960.webp 960w, /images/cactus-hero-v061-1080.webp 1080w"
+              sizes="(max-width: 820px) 100vw, 71vw"
+            />
+            <img
+              src="/images/cactus-hero-v061-1080.webp"
+              alt=""
+              width="1080"
+              height="912"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+            />
+          </picture>
         </div>
 
         <div className="hero-shell">

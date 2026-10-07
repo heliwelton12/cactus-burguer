@@ -1,15 +1,17 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import Header from './components/Header';
 import CategoryNav from './components/CategoryNav';
 import ProductCard from './components/ProductCard';
-import ProductModal from './components/ProductModal';
 import BackToTop from './components/BackToTop';
-import CactchoMascot from './components/CactchoMascot';
 import { STORE } from './config/store';
 import { categories, products } from './data/menu';
 import { getStoreStatus } from './utils/openingHours';
 import { loadCart, loadCustomer, saveCart, saveCustomer } from './utils/storage';
 import { buildWhatsAppMessage, openWhatsApp } from './utils/whatsapp';
+
+
+const ProductModal = lazy(() => import('./components/ProductModal'));
+const CactchoMascot = lazy(() => import('./components/CactchoMascot'));
 
 const initialCustomer = {
   name: '',
@@ -33,10 +35,29 @@ export default function App() {
   const [cactchoEvent, setCactchoEvent] = useState(null);
   const [recentProductId, setRecentProductId] = useState(null);
   const [orderVersion, setOrderVersion] = useState(0);
+  const [cactchoReady, setCactchoReady] = useState(false);
   const highlightTimerRef = useRef(null);
 
   useEffect(() => saveCart(cart), [cart]);
   useEffect(() => saveCustomer(customer), [customer]);
+
+  useEffect(() => {
+    let idleId = null;
+    let timerId = null;
+
+    if ('requestIdleCallback' in window) {
+      idleId = window.requestIdleCallback(() => setCactchoReady(true), { timeout: 900 });
+    } else {
+      timerId = window.setTimeout(() => setCactchoReady(true), 650);
+    }
+
+    return () => {
+      if (idleId !== null && 'cancelIdleCallback' in window) {
+        window.cancelIdleCallback(idleId);
+      }
+      if (timerId !== null) window.clearTimeout(timerId);
+    };
+  }, []);
 
   useEffect(() => {
     const statusTimer = window.setInterval(() => setStatus(getStoreStatus()), 60_000);
@@ -79,6 +100,7 @@ export default function App() {
       )));
 
       setOrderVersion((current) => current + 1);
+      setCactchoReady(true);
       setCactchoEvent({
         id: `${editingItem.cartId}-${Date.now()}`,
         type: 'item-updated',
@@ -95,6 +117,7 @@ export default function App() {
       }]);
 
       setOrderVersion((current) => current + 1);
+      setCactchoReady(true);
       setRecentProductId(selectedProduct.id);
       window.clearTimeout(highlightTimerRef.current);
       highlightTimerRef.current = window.setTimeout(() => {
@@ -202,6 +225,7 @@ export default function App() {
         cartCount={cartCount}
         orderVersion={orderVersion}
         onOpenCart={() => {
+          setCactchoReady(true);
           setCactchoEvent({
             id: `open-order-${Date.now()}`,
             type: 'open-order',
@@ -259,26 +283,32 @@ export default function App() {
 
       <BackToTop visible={showBackToTop} />
 
-      <CactchoMascot
-        event={cactchoEvent}
-        cart={cart}
-        customer={customer}
-        status={status}
-        onSaveCustomer={handleGuidedCustomerSave}
-        onSendOrder={handleGuidedSend}
-        onChangeQuantity={changeQuantity}
-        onRemoveItem={removeItem}
-        onEditItem={editItem}
-        onClearOrder={clearCompletedOrder}
-      />
+      {cactchoReady && (
+        <Suspense fallback={null}>
+          <CactchoMascot
+            event={cactchoEvent}
+            cart={cart}
+            customer={customer}
+            status={status}
+            onSaveCustomer={handleGuidedCustomerSave}
+            onSendOrder={handleGuidedSend}
+            onChangeQuantity={changeQuantity}
+            onRemoveItem={removeItem}
+            onEditItem={editItem}
+            onClearOrder={clearCompletedOrder}
+          />
+        </Suspense>
+      )}
 
       {selectedProduct && (
-        <ProductModal
-          product={selectedProduct}
-          editingItem={editingItem}
-          onClose={closeProduct}
-          onSave={saveProductCustomization}
-        />
+        <Suspense fallback={<div className="modal-loading" role="status">Carregando personalização…</div>}>
+          <ProductModal
+            product={selectedProduct}
+            editingItem={editingItem}
+            onClose={closeProduct}
+            onSave={saveProductCustomization}
+          />
+        </Suspense>
       )}
 
     </>

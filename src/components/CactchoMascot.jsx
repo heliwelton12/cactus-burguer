@@ -28,17 +28,6 @@ const RESTORABLE_STEPS = new Set([
   'sentConfirm',
 ]);
 
-const TALKING_STEPS = new Set([
-  'greeting',
-  'help',
-  'added',
-  'empty',
-  'summary',
-  'closed',
-  'success',
-  'sentConfirm',
-  'done',
-]);
 
 const THINKING_STEPS = new Set([
   'name',
@@ -140,6 +129,7 @@ export default function CactchoMascot({
   const autoCloseRef = useRef(null);
   const bubbleRef = useRef(null);
   const resumeStepRef = useRef(initialRestorableStep);
+  const lastEventIdRef = useRef(null);
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -294,7 +284,8 @@ export default function CactchoMascot({
   }, [bubbleOpen, bubbleStep]);
 
   useEffect(() => {
-    if (!event) return;
+    if (!event || event.id === lastEventIdRef.current) return;
+    lastEventIdRef.current = event.id;
 
     window.clearTimeout(autoCloseRef.current);
     setFormError('');
@@ -539,7 +530,7 @@ export default function CactchoMascot({
 
   const handleWhatsApp = () => {
     if (!status?.open) {
-      setFormError('A loja está fechada agora. Seu pedido continua salvo para quando abrir.');
+      setFormError('A lanchonete está fechada agora. Seu pedido continua salvo para quando abrir.');
       return;
     }
 
@@ -576,8 +567,6 @@ export default function CactchoMascot({
   const handleClosedOrder = () => {
     setBubbleStep(cart.length ? 'summary' : 'empty');
   };
-
-  if (loadFailed) return null;
 
   return (
     <>
@@ -639,10 +628,10 @@ export default function CactchoMascot({
             <>
               <span className="cactcho-bubble-name">CACTCHÔ</span>
               <strong id="cactcho-dialog-title" className="cactcho-bubble-greeting">
-                A loja está fechada agora.
+                A lanchonete está fechada agora.
               </strong>
               <p>
-                Mas pode montar seu pedido normalmente. Ele fica salvo e a loja abre às 8h.
+                Mas pode montar seu pedido normalmente. Ele fica salvo e a lanchonete abre às 8h.
               </p>
 
               <div className="cactcho-bubble-actions">
@@ -966,7 +955,7 @@ export default function CactchoMascot({
 
               {!status?.open && (
                 <p className="cactcho-closed-message">
-                  A loja está fechada agora. Seu carrinho continua salvo.
+                  A lanchonete está fechada agora. Seu carrinho continua salvo.
                 </p>
               )}
 
@@ -1027,7 +1016,17 @@ export default function CactchoMascot({
           aria-expanded={bubbleOpen}
           aria-controls="cactcho-dialog"
         >
-          <RiveComponent className="cactcho-canvas" />
+          {loadFailed ? (
+            <img
+              className="cactcho-fallback-image"
+              src="/favicon-192x192.png"
+              alt=""
+              width="192"
+              height="192"
+            />
+          ) : (
+            <RiveComponent className="cactcho-canvas" />
+          )}
         </button>
       </aside>
     </>
